@@ -11,7 +11,24 @@
 This package is translated from its original source: https://github.com/gatagat/lap.</Description>
     <Company>RainBowDash</Company>
     <PackageIcon>icon_128x128.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/Rainbowdashx1/LapjvCSharp</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
+
+  <ItemGroup>
+	  <None Include="..\LICENSE.md">
+		<Pack>True</Pack>
+		<PackagePath>\</PackagePath>
+	  </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <None Update="icon_128x128.png">
