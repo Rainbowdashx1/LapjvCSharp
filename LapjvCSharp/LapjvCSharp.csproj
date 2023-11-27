@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+    <Authors>RainBowDash</Authors>
+    <Copyright>https://licenses.nuget.org/MIT</Copyright>
+    <PackageTags>.net;lap;lapjv</PackageTags>
+    <Description>This is a developed NuGet package to implement the Jonker-Volgenant linear assignment algorithm in C#.
+This package is translated from its original source: https://github.com/gatagat/lap.</Description>
+    <Company>RainBowDash</Company>
+    <PackageIcon>icon_128x128.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="icon_128x128.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
