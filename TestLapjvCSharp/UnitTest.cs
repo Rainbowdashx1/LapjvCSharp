@@ -9,11 +9,12 @@ namespace TestLapjvCSharp
         double[,] Matriz4x4;
         double[,] Matriz3x3;
         double[,] Matriz2x2;
-        public UnitTest() 
+        double[,] Matriz1x2;
+        public UnitTest()
         {
             lap = new Lapjv();
             Matriz8x8 = new double[,]
-            { 
+            {
                 {1000, 2, 11, 10, 8, 7, 6, 5},
                 { 6, 1000, 1, 8, 8, 4, 6, 7},
                 { 5, 12, 1000, 11, 8, 12, 3, 11},
@@ -21,7 +22,7 @@ namespace TestLapjvCSharp
                 { 11, 11, 9, 4, 1000, 2, 10, 9},
                 { 12, 8, 5, 2, 11, 1000, 11, 9},
                 { 10, 11, 12, 10, 9, 12, 1000, 3},
-                { 10, 10, 10, 10, 6, 3, 1, 1000} 
+                { 10, 10, 10, 10, 6, 3, 1, 1000}
             };
 
             Matriz4x4 = new double[,]
@@ -43,6 +44,10 @@ namespace TestLapjvCSharp
             {
                 { 1f, 0.117f},
                 { 1f, 0.730f}
+            };
+            Matriz1x2 = new double[,]
+            {
+                { -0.936, -0.31},
             };
         }
 
@@ -89,6 +94,16 @@ namespace TestLapjvCSharp
             Assert.Equal(x, result.x);
             Assert.Equal(y, result.y);
         }
-        
+
+        [Fact]
+        public void Test2x1()
+        {
+            var result = lap.lapjvCsharp(Matriz1x2, true, 0.80);
+            int[] x = { 0 };
+            int[] y = { 0, -1 };
+
+            Assert.Equal(x, result.x);
+            Assert.Equal(y, result.y);
+        }
     }
 }
