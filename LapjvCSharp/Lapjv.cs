@@ -8,13 +8,13 @@ namespace LapjvCSharp
     {
         readonly LapjvInternal lap;
         readonly LapjvMethods lapm;
-        public Lapjv() 
+        public Lapjv()
         {
             lap = new LapjvInternal();
             lapm = new LapjvMethods();
-        }  
+        }
 
-        public (int[] x, int[] y) lapjvCsharp(double[,] cost,bool extendCost = false, double costLimit = double.PositiveInfinity) 
+        public (int[] x, int[] y) lapjvCsharp(double[,] cost, bool extendCost = false, double costLimit = double.PositiveInfinity)
         {
             int rows = cost.GetLength(0);
             int cols = cost.GetLength(1);
@@ -30,9 +30,12 @@ namespace LapjvCSharp
 
             if (n != rows)
             {
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < x.Length; i++)
                 {
                     if (x[i] >= cols) x[i] = -1;
+                }
+                for (int i = 0; i < y.Length; i++)
+                {
                     if (y[i] >= rows) y[i] = -1;
                 }
             }
