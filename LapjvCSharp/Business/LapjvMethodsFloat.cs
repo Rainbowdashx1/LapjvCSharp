@@ -2,48 +2,11 @@
 
 namespace LapjvCSharp.Business
 {
-    public class LapjvMethods
+    public class LapjvMethodsFloat
     {
-        public double[,] ExtendCostMatrix(double[,] cost, bool extendCost, double costLimit)
+        private float MaxValue(float[,] matrix)
         {
-            int nRows = cost.GetLength(0);
-            int nCols = cost.GetLength(1);
-            int n = nRows;
-
-            if (extendCost || costLimit < double.PositiveInfinity)
-            {
-                n = nRows + nCols;
-                double[,] extendedCost = new double[n, n];
-                double defaultValue = costLimit < double.PositiveInfinity ? costLimit / 2.0 : MaxValue(cost) + 1;
-                for (int i = 0; i < n; i++)
-                {
-                    for (int j = 0; j < n; j++)
-                    {
-                        extendedCost[i, j] = defaultValue;
-                    }
-                }
-                for (int i = nRows; i < n; i++)
-                {
-                    for (int j = nCols; j < n; j++)
-                    {
-                        extendedCost[i, j] = 0;
-                    }
-                }
-                for (int i = 0; i < nRows; i++)
-                {
-                    for (int j = 0; j < nCols; j++)
-                    {
-                        extendedCost[i, j] = cost[i, j];
-                    }
-                }
-                return extendedCost;
-            }
-            return cost;
-        }
-
-        private double MaxValue(double[,] matrix)
-        {
-            double maxVal = double.MinValue;
+            float maxVal = float.MinValue;
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
                 for (int j = 0; j < matrix.GetLength(1); j++)
@@ -56,7 +19,7 @@ namespace LapjvCSharp.Business
             }
             return maxVal;
         }
-        public int CcrrtDense(int n, double[,] cost, int[] freeRows, int[] x, int[] y, double[] v)
+        public int CcrrtDense(int n, float[,] cost, int[] freeRows, int[] x, int[] y, float[] v)
         {
             int nFreeRows = 0;
             bool[] unique = new bool[n];
@@ -64,7 +27,7 @@ namespace LapjvCSharp.Business
             for (int i = 0; i < n; i++)
             {
                 x[i] = -1;
-                v[i] = double.MaxValue;
+                v[i] = float.MaxValue;
                 y[i] = 0;
             }
 
@@ -72,7 +35,7 @@ namespace LapjvCSharp.Business
             {
                 for (int j = 0; j < n; j++)
                 {
-                    double c = cost[i, j];
+                    float c = cost[i, j];
                     if (c < v[j])
                     {
                         v[j] = c;
@@ -104,11 +67,11 @@ namespace LapjvCSharp.Business
                 else if (unique[i])
                 {
                     int j = x[i];
-                    double min = double.MaxValue;
+                    float min = float.MaxValue;
                     for (int j2 = 0; j2 < n; j2++)
                     {
                         if (j2 == j) continue;
-                        double c = cost[i, j2] - v[j2];
+                        float c = cost[i, j2] - v[j2];
                         if (c < min)
                         {
                             min = c;
@@ -120,7 +83,7 @@ namespace LapjvCSharp.Business
 
             return nFreeRows;
         }
-        public int CarrDense(int n, double[,] cost, int nFreeRows, int[] freeRows, int[] x, int[] y, double[] v)
+        public int CarrDense(int n, float[,] cost, int nFreeRows, int[] freeRows, int[] x, int[] y, float[] v)
         {
             int current = 0;
             int newFreeRows = 0;
@@ -129,12 +92,12 @@ namespace LapjvCSharp.Business
             {
                 int freeI = freeRows[current++];
                 int j1 = 0;
-                double v1 = cost[freeI, 0] - v[0];
+                float v1 = cost[freeI, 0] - v[0];
                 int j2 = -1;
-                double v2 = double.MaxValue;
+                float v2 = float.MaxValue;
                 for (int j = 1; j < n; j++)
                 {
-                    double c = cost[freeI, j] - v[j];
+                    float c = cost[freeI, j] - v[j];
                     if (c < v2)
                     {
                         if (c >= v1)
@@ -153,7 +116,7 @@ namespace LapjvCSharp.Business
                 }
 
                 int i0 = y[j1];
-                double v1New = v[j1] - (v2 - v1);
+                float v1New = v[j1] - (v2 - v1);
                 bool v1Lowers = v1New < v[j1];
 
                 if (rrCnt < current * n)
@@ -195,7 +158,7 @@ namespace LapjvCSharp.Business
 
             return newFreeRows;
         }
-        public int CaDense(int n, double[,] cost, int nFreeRows, int[] freeRows, int[] x, int[] y, double[] v)
+        public int CaDense(int n, float[,] cost, int nFreeRows, int[] freeRows, int[] x, int[] y, float[] v)
         {
             int[] pred = new int[n];
 
@@ -232,13 +195,13 @@ namespace LapjvCSharp.Business
             a = b;
             b = temp;
         }
-        public int FindPathDense(int n, double[,] cost, int startI, int[] y, double[] v, int[] pred)
+        public int FindPathDense(int n, float[,] cost, int startI, int[] y, float[] v, int[] pred)
         {
             int lo = 0, hi = 0;
             int finalJ = -1;
             int nReady = 0;
             int[] cols = new int[n];
-            double[] d = new double[n];
+            float[] d = new float[n];
 
             for (int i = 0; i < n; i++)
             {
@@ -269,7 +232,7 @@ namespace LapjvCSharp.Business
                 }
             }
 
-            double mind = d[cols[lo]];
+            float mind = d[cols[lo]];
             for (int k = 0; k < nReady; k++)
             {
                 int j = cols[k];
@@ -278,10 +241,10 @@ namespace LapjvCSharp.Business
 
             return finalJ;
         }
-        public int FindDense(int n, int lo, double[] d, int[] cols, int[] y)
+        public int FindDense(int n, int lo, float[] d, int[] cols, int[] y)
         {
             int hi = lo + 1;
-            double mind = d[cols[lo]];
+            float mind = d[cols[lo]];
 
             for (int k = hi; k < n; k++)
             {
@@ -301,15 +264,15 @@ namespace LapjvCSharp.Business
             return hi;
         }
 
-        public int ScanDense(int n, double[,] cost, ref int lo, ref int hi, double[] d, int[] cols, int[] pred, int[] y, double[] v)
+        public int ScanDense(int n, float[,] cost, ref int lo, ref int hi, float[] d, int[] cols, int[] pred, int[] y, float[] v)
         {
-            double h, cred_ij;
+            float h, cred_ij;
 
             while (lo != hi)
             {
                 int j = cols[lo++];
                 int i = y[j];
-                double mind = d[j];
+                float mind = d[j];
                 h = cost[i, j] - v[j] - mind;
 
                 for (int k = hi; k < n; k++)
